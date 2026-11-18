@@ -1,0 +1,10 @@
+backend/env/.env
+backend/env/log_channels.json
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+dist/
+*.mp3
+/tmp/
+frontend/.env.local

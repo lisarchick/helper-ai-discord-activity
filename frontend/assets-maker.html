@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  body { width: 1024px; height: 576px; overflow: hidden; position: relative;
+         font-family: "Segoe UI", Arial, sans-serif; }
+  /* dark bg with radial glow + subtle grid */
+  .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 55% 60% at 50% 42%, #232a3d 0%, transparent 70%),
+      radial-gradient(ellipse at 50% 115%, #12161f 0%, transparent 60%),
+      linear-gradient(180deg, #0d1017 0%, #07080c 100%);
+  }
+  .grid {
+    position: absolute; inset: 0; opacity: .5;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse at 50% 45%, transparent 35%, black 100%);
+    mask-image: radial-gradient(ellipse at 50% 45%, transparent 35%, black 100%);
+  }
+  .alisa {
+    position: absolute;
+    left: 50%; bottom: -12%;
+    transform: translateX(-50%);
+    width: 620px; height: 620px;
+    image-rendering: auto;
+  }
+  .title {
+    position: absolute; top: 54px; left: 0; right: 0;
+    text-align: center;
+    color: #e8ecf6;
+    font-size: 52px; font-weight: 700; letter-spacing: 0.12em;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  }
+  .subtitle {
+    position: absolute; top: 128px; left: 0; right: 0;
+    text-align: center;
+    color: #7aa2f7;
+    font-size: 18px; letter-spacing: 0.55em; text-transform: uppercase;
+  }
+  .chips {
+    position: absolute; top: 178px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 12px;
+  }
+  .chip {
+    color: #9aa3b8; font-size: 13px; letter-spacing: 0.1em;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.03);
+    border-radius: 999px; padding: 6px 14px;
+  }
+  canvas { display: none; }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="grid"></div>
+  <img class="alisa" id="alisa" />
+  <div class="title">HELPER AI</div>
+  <div class="subtitle">voice assistant</div>
+  <div class="chips">
+    <span class="chip">48 визем · липсинк</span>
+    <span class="chip">9 эмоций</span>
+    <span class="chip">«helper» + вопрос</span>
+  </div>
+  <canvas id="render" width="334" height="334"></canvas>
+  <script type="module">
+    // Render the real sprite composite (emotion sheet cell) at high quality
+    const img = new Image();
+    img.src = 'assets/aistudio/alisa_expressions_cutout.png'; // 3x3 emotions, cell 334
+    img.onload = () => {
+      // use 'joy' cell (col 1, row 0) for the cover — warm smile
+      const cell = 334;
+      const out = document.getElementById('alisa');
+      const cv = document.getElementById('render');
+      const ctx = cv.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      ctx.clearRect(0, 0, 334, 334);
+      ctx.drawImage(img, cell * 1, 0, cell, cell, 0, 0, cell, cell);
+      out.src = cv.toDataURL('image/png');
+    };
+  </script>
+</body>
+</html>
